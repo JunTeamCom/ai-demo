@@ -2,7 +2,9 @@ package com.junteam.ai.demo.web;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 @RequestMapping("/web")
 public class WebController {
     @PostMapping(path = "/ask", produces = "application/json")
