@@ -1,5 +1,7 @@
 package com.junteam.ai.demo.service.impl;
 
+import java.util.Objects;
+
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +21,7 @@ public class OpenAIChatServiceImpl implements ChatService {
     @Override
     public ChatAnswer ask(ChatQuestion question) {
         var answerText = chatClient.prompt()
-                .user(question.question())
+                .user(Objects.requireNonNull(question.question()))
                 .call()
                 .content();
         return new ChatAnswer(answerText);
