@@ -20,10 +20,10 @@ public class OpenAIChatServiceImpl implements ChatService {
 
     @Override
     public ChatAnswer ask(ChatQuestion question) {
-        var answerText = chatClient.prompt()
+        var answer = chatClient.prompt()
                 .user(Objects.requireNonNull(question.question()))
-                .call()
-                .content();
+                .call();
+        var answerText = answer.content();
         return new ChatAnswer(answerText);
     }
 }
