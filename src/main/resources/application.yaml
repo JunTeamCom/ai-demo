@@ -7,4 +7,7 @@ spring:
       api-key: ${DASHSCOPE_API_KEY}
       chat.options:
         model: qwen3.5-plus
+logging:
+  level:
+    '[org.springframework.ai]': DEBUG
 
