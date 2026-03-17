@@ -40,8 +40,9 @@ public class ChatServiceTest {
 
     @Test
     public void evaluateRelevancy() {
+        String userTitle = "美国";
         String userText = "美国的首都是哪里？";
-        ChatQuestion chatQuestion = new ChatQuestion(userText);
+        ChatQuestion chatQuestion = new ChatQuestion(userTitle, userText);
         System.out.println("=== Chat Debug Start ===");
         ChatAnswer chatAnswer = chatService.ask(chatQuestion);
         System.out.println("=== Chat Debug Info ===");
@@ -104,8 +105,9 @@ public class ChatServiceTest {
 
     @Test
     public void evaluateFactualAccuracy() {
+        String userTitle = "美国";
         String userText = "美国首都是哪里？";
-        ChatQuestion chatQuestion = new ChatQuestion(userText);
+        ChatQuestion chatQuestion = new ChatQuestion(userTitle, userText);
         System.out.println("=== Chat Debug Start ===");
         ChatAnswer chatAnswer = chatService.ask(chatQuestion);
         System.out.println("=== Chat Debug Info ===");

@@ -1,8 +1,8 @@
 package com.junteam.ai.demo.service.impl;
 
-import java.util.Objects;
-
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.junteam.ai.demo.model.ChatAnswer;
@@ -18,12 +18,20 @@ public class OpenAIChatServiceImpl implements ChatService {
         this.chatClient = chatClientBuilder.build();
     }
 
+    @Value("classpath:/promptTemplates/questionPromptTemplate.st")
+    Resource questionPromptTemplate;
+
+    @SuppressWarnings("null")
     @Override
-    public ChatAnswer ask(ChatQuestion question) {
+    public ChatAnswer ask(ChatQuestion chatQuestion) {
         var answer = chatClient.prompt()
-                .user(Objects.requireNonNull(question.question()))
+                .user(userSpec -> userSpec
+                    .text(questionPromptTemplate)
+                    .param("title", chatQuestion.title())
+                    .param("question", chatQuestion.question())
+                )
                 .call();
         var answerText = answer.content();
-        return new ChatAnswer(answerText);
+        return new ChatAnswer(chatQuestion.title(), answerText);
     }
 }

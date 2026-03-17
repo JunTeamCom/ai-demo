@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.junteam.ai.demo.model.ChatQuestion;
-import com.junteam.ai.demo.service.impl.OpenAIChatServiceImpl;
 
 /**
  *
@@ -32,6 +31,9 @@ public class ChatServiceMockTest {
 
     @Value("classpath:/test-openapi-response-uk.json")
     Resource responseResourceUK;
+
+    @Autowired
+    private ChatService chatService;
 
     @Autowired
     ChatClient.Builder chatClientBuilder;
@@ -57,8 +59,8 @@ public class ChatServiceMockTest {
         WireMock.stubFor(WireMock.post("/v1/chat/completions")
                 .willReturn(ResponseDefinitionBuilder.okForJson(responseNode)));
 
-        var instance = new OpenAIChatServiceImpl(chatClientBuilder);
-        var chatAnswer = instance.ask(new ChatQuestion("美国的首都是哪里？"));
+        var instance = chatService;
+        var chatAnswer = instance.ask(new ChatQuestion("美国", "美国的首都是哪里？"));
         Assertions.assertThat(chatAnswer).isNotNull();
         Assertions.assertThat(chatAnswer.answer()).isEqualTo("华盛顿");
 
@@ -66,7 +68,7 @@ public class ChatServiceMockTest {
         responseNode = mapper.readTree(cannedResponse);
         WireMock.stubFor(WireMock.post("/v1/chat/completions")
                 .willReturn(ResponseDefinitionBuilder.okForJson(responseNode)));
-        chatAnswer = instance.ask(new ChatQuestion("英国的首都是哪里？"));
+        chatAnswer = instance.ask(new ChatQuestion("英国", "英国的首都是哪里？"));
         Assertions.assertThat(chatAnswer).isNotNull();
         Assertions.assertThat(chatAnswer.answer()).isEqualTo("伦敦"); 
     }
