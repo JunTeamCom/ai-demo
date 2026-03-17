@@ -1,7 +1,5 @@
 package com.junteam.ai.demo.service.impl;
 
-import java.io.IOException;
-
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -10,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.junteam.ai.demo.model.ChatAnswer;
 import com.junteam.ai.demo.model.ChatQuestion;
 import com.junteam.ai.demo.service.ChatService;
-
-import jakarta.annotation.PostConstruct;
 
 @Service
 public class OpenAIChatServiceImpl implements ChatService {
@@ -24,13 +20,6 @@ public class OpenAIChatServiceImpl implements ChatService {
 
     @Value("classpath:/promptTemplates/questionPromptTemplate.st")
     Resource questionPromptTemplate;
-
-    @PostConstruct
-    public void validateTemplate() throws IOException {
-        if (questionPromptTemplate == null || !questionPromptTemplate.exists()) {
-            throw new IllegalStateException("Prompt template not loaded properly");
-        }
-    }
 
     @SuppressWarnings("null")
     @Override
