@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.junteam.ai</groupId>
 	<artifactId>ai-demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>5.0.0</version>
 	<name>ai-demo</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
