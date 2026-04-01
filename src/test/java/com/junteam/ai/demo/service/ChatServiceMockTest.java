@@ -60,7 +60,7 @@ public class ChatServiceMockTest {
                 .willReturn(ResponseDefinitionBuilder.okForJson(responseNode)));
 
         var instance = chatService;
-        var chatAnswer = instance.ask(new ChatQuestion("美国", "美国的首都是哪里？"));
+        var chatAnswer = instance.ask(new ChatQuestion("美国", "美国的首都是哪里？"), "123");
         Assertions.assertThat(chatAnswer).isNotNull();
         Assertions.assertThat(chatAnswer.answer()).isEqualTo("华盛顿");
 
@@ -68,7 +68,7 @@ public class ChatServiceMockTest {
         responseNode = mapper.readTree(cannedResponse);
         WireMock.stubFor(WireMock.post("/v1/chat/completions")
                 .willReturn(ResponseDefinitionBuilder.okForJson(responseNode)));
-        chatAnswer = instance.ask(new ChatQuestion("英国", "英国的首都是哪里？"));
+        chatAnswer = instance.ask(new ChatQuestion("英国", "英国的首都是哪里？"), "123");
         Assertions.assertThat(chatAnswer).isNotNull();
         Assertions.assertThat(chatAnswer.answer()).isEqualTo("伦敦"); 
     }

@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.12</version>
+        <version>3.5.13</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.junteam.ai</groupId>
     <artifactId>ai-demo</artifactId>
-    <version>5.0.0</version>
+    <version>6.0.0</version>
     <name>ai-demo</name>
     <description>Demo project for Spring Boot</description>
     <url />
@@ -29,7 +29,7 @@
     </scm>
     <properties>
         <java.version>25</java.version>
-        <spring-ai.version>1.1.3</spring-ai.version>
+        <spring-ai.version>1.1.4</spring-ai.version>
     </properties>
     <dependencies>
 
@@ -88,6 +88,16 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-chat-memory-repository-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
     <dependencyManagement>
