@@ -7,35 +7,39 @@ import org.springframework.stereotype.Service;
 
 import com.junteam.ai.demo.model.ChatAnswer;
 import com.junteam.ai.demo.model.ChatQuestion;
-import com.junteam.ai.demo.service.ChatRulesService;
 import com.junteam.ai.demo.service.ChatService;
+
+import static org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor.FILTER_EXPRESSION;
+import static org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID;
 
 @Service
 public class OpenAIChatServiceImpl implements ChatService {
 
     private final ChatClient chatClient;
-    private final ChatRulesService chatRulesService;
 
-    public OpenAIChatServiceImpl(ChatClient.Builder chatClientBuilder, ChatRulesService chatRulesService) {
-        this.chatClient = chatClientBuilder.build();
-        this.chatRulesService = chatRulesService;
+    public OpenAIChatServiceImpl(ChatClient chatClient) {
+        this.chatClient = chatClient;
     }
 
     @Value("classpath:/promptTemplates/questionPromptTemplate.st")
     Resource questionPromptTemplate;
 
     @Override
-    public ChatAnswer ask(ChatQuestion chatQuestion) {
-        var chatRules = chatRulesService.getRulesFor(chatQuestion.title(), chatQuestion.question());
-        var answer = chatClient
-                .prompt()
-                .system(systemSpec -> systemSpec
-                        .text(questionPromptTemplate)
-                        .param("countryTitle", chatQuestion.title())
-                        .param("rules", chatRules))
-                .user(chatQuestion.question())
-                .call();
-        var answerText = answer.content();
-        return new ChatAnswer(chatQuestion.title(), answerText);
+    public ChatAnswer ask(ChatQuestion chatQuestion, String conversationId) {
+        var countryTitleMatch = String.format(
+            "countryTitle == '%s'",
+            chatQuestion.title());
+
+        return chatClient
+            .prompt()
+            .system(systemSpec -> systemSpec
+                .text(questionPromptTemplate)
+                .param("countryTitle", chatQuestion.title()))
+            .advisors(advisorSpec -> advisorSpec
+                .param(FILTER_EXPRESSION, countryTitleMatch)
+                .param(CONVERSATION_ID, conversationId)) // 引入会话ID
+            .user(chatQuestion.question())
+            .call()
+            .entity(ChatAnswer.class);
     }
 }

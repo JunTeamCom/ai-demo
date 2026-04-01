@@ -3,6 +3,7 @@ package com.junteam.ai.demo.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +16,11 @@ import com.junteam.ai.demo.service.ChatService;
 public class WebController {
     @Autowired
     private ChatService chatService;
+
     @PostMapping(path = "/ask", produces = "application/json")
-    public ChatAnswer ask(@RequestBody ChatQuestion chatQuestion) {
-        return chatService.ask(chatQuestion);
+    public ChatAnswer ask(
+        @RequestHeader(name = "X_CONVERSATION_ID", defaultValue = "default") String conversationId,
+        @RequestBody ChatQuestion chatQuestion) {
+        return chatService.ask(chatQuestion, conversationId);
     }
 }

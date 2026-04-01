@@ -44,7 +44,7 @@ public class ChatServiceTest {
         String userText = "美国的首都是哪里？";
         ChatQuestion chatQuestion = new ChatQuestion(userTitle, userText);
         System.out.println("=== Chat Debug Start ===");
-        ChatAnswer chatAnswer = chatService.ask(chatQuestion);
+        ChatAnswer chatAnswer = chatService.ask(chatQuestion, "123");
         System.out.println("=== Chat Debug Info ===");
         System.out.println("Question: " + userText);
         System.out.println("Answer: " + chatAnswer.answer());
@@ -109,7 +109,7 @@ public class ChatServiceTest {
         String userText = "美国首都是哪里？";
         ChatQuestion chatQuestion = new ChatQuestion(userTitle, userText);
         System.out.println("=== Chat Debug Start ===");
-        ChatAnswer chatAnswer = chatService.ask(chatQuestion);
+        ChatAnswer chatAnswer = chatService.ask(chatQuestion,"123");
         System.out.println("=== Chat Debug Info ===");
         System.out.println("Question: " + userText);
         System.out.println("Answer: " + chatAnswer.answer());
